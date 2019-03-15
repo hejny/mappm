@@ -1,7 +1,7 @@
 # Cities
 
-This is project created on [Space Application Hackathon](https://www.facebook.com/events/247008139302302/).
-You can try it out here https://hejny.github.io/cities.
+This is project created on [CRA IoT](https://www.facebook.com/events/394970157728128/).
+You can try it out here https://hejny.github.io/mappm.
 
 ## Embed in a page
 - Run `npm run build`
@@ -15,7 +15,7 @@ You can try it out here https://hejny.github.io/cities.
 ```html
 <script type="text/javascript">
     window.onload = function() {
-        new CitiesApp(document.getElementById('root'), {
+        new MapApp(document.getElementById('root'), {
             apiURL: 'http://api-url.com',
         });
     }

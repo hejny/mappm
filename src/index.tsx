@@ -1,5 +1,5 @@
-import { CitiesApp } from './CitiesApp';
+import { MapApp } from './MapApp';
 
 const windowAny = window as any;
 
-windowAny.CitiesApp = CitiesApp;
+windowAny.MapApp = MapApp;

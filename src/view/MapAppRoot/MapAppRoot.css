@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 
-.CitiesAppRoot{
+.MapAppRoot{
     font-family: 'Roboto', sans-serif;
 }
 
 
 
-.CitiesAppRoot .app-name{
+.MapAppRoot .app-name{
     
     z-index: 30;
     position: fixed;
@@ -25,18 +25,18 @@
     
 }
 
-.CitiesAppRoot .map{
+.MapAppRoot .map{
     z-index: 10;
 }
 
-.CitiesAppRoot button.center{
+.MapAppRoot button.center{
     z-index: 20;
     position: absolute;
     bottom: 10px;
     left:10px;
 }
 
-.CitiesAppRoot .city{
+.MapAppRoot .city{
 
     display: none;
     z-index: 30;
@@ -53,14 +53,14 @@
 
 }
 
-.CitiesAppRoot .city h1{
+.MapAppRoot .city h1{
     font-weight: normal;
     font-size: 2rem;
     vertical-align: middle;
 }
 
 
-.CitiesAppRoot .avatar{
+.MapAppRoot .avatar{
 
     width: 150px;
     height: 150px;
@@ -76,7 +76,7 @@
     
 }
 
-.CitiesAppRoot .avatar .inner{
+.MapAppRoot .avatar .inner{
     width: 100%;
     height: 100%;
     border-radius: 1000px;
@@ -91,7 +91,7 @@
     border: 1px solid #ccc; 
 } 
 
-.CitiesAppRoot .avatar .inner h1{
+.MapAppRoot .avatar .inner h1{
     display: block;
     text-align: center;
     
@@ -109,7 +109,7 @@
     /* border: 1px solid red;  */
 } 
 
-.CitiesAppRoot .chart{
+.MapAppRoot .chart{
     z-index: 20;
     position: absolute;
     bottom: 50px;
@@ -122,19 +122,19 @@
      /* border: 1px solid red;  */
 }
 
-.CitiesAppRoot .chart svg g{
+.MapAppRoot .chart svg g{
     /* box-shadow: red 0 0 3px; */
 }
 
 
 
-/* .CitiesAppRoot .recharts-wrapper{
+/* .MapAppRoot .recharts-wrapper{
     padding: 0;
 } */
 
 
 
-.CitiesAppRoot .chart .recharts-legend-wrapper{
+.MapAppRoot .chart .recharts-legend-wrapper{
 
     border: 1px solid red;
 }

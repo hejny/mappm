@@ -1,4 +1,4 @@
-import './CitiesAppRoot.css';
+import './MapAppRoot.css';
 import * as React from 'react';
 import { Polygon } from 'react-leaflet';
 import { DefaultMap } from '../maps/DefaultMap';
@@ -15,25 +15,25 @@ import {
 import { CITIES_CZECHIA } from '../../dataMocks/cities';
 //const colors = scaleOrdinal(schemeCategory10).range();
 
-interface CitiesAppRootProps {}
+interface MapAppRootProps {}
 
-interface CitiesAppRootState {
+interface MapAppRootState {
     places: OSMPlacePlus[];
     city: null | OSMPlacePlus;
     center: ICoordinates;
 }
 
-export class CitiesAppRoot extends React.Component<
-    CitiesAppRootProps,
-    CitiesAppRootState
+export class MapAppRoot extends React.Component<
+    MapAppRootProps,
+    MapAppRootState
 > {
-    state: CitiesAppRootState = {
+    state: MapAppRootState = {
         places: [],
         city: null,
         center: { lat: 50, lng: 14.4 },
     };
 
-    constructor(props: CitiesAppRootProps) {
+    constructor(props: MapAppRootProps) {
         super(props);
 
         for (const city of CITIES_CZECHIA) {
@@ -75,7 +75,7 @@ export class CitiesAppRoot extends React.Component<
 
     render() {
         return (
-            <div className="CitiesAppRoot">
+            <div className="MapAppRoot">
                 {/* <div
                     className=""
                     style={{

@@ -1,13 +1,13 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import { CitiesAppRoot } from './view/CitiesAppRoot/CitiesAppRoot';
+import { MapAppRoot } from './view/MapAppRoot/MapAppRoot';
 
 export interface IAppConfig {
     apiURL: string;
 }
 
-export class CitiesApp {
+export class MapApp {
     constructor(targetElement: HTMLElement, config: IAppConfig) {
-        ReactDOM.render(<CitiesAppRoot />, targetElement);
+        ReactDOM.render(<MapAppRoot />, targetElement);
     }
 }
