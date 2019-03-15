@@ -1,0 +1,27 @@
+{
+    "status": "OK",
+    "data": [
+      {
+        "id": "uuid-uuid-uuid",
+        "title": "Ostravska raketa!",
+        "description": "bla egfb ergf wrsgf wrsgf wrsgf",
+        "location": {
+          "latitude": 50,
+          "longitude": 14
+        },
+        "sensors": [
+          {
+            "type": "PPM",
+            "parameters": {
+            },
+            "values": [
+              {
+                "ppm": 24,
+                "time": 123456789010
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
