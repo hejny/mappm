@@ -11,11 +11,11 @@ export interface ILocation {
     longitude: number;
 }
 
-export function shortenLocation(location:ILocation){
+export function shortenLocation(location: ILocation) {
     return {
         lat: location.latitude,
-        lng: location.longitude
-    }
+        lng: location.longitude,
+    };
 }
 
 export interface ISensorPPM {

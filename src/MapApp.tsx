@@ -7,6 +7,7 @@ import { IAppState } from './model/IAppState';
 import { ISaveState } from './controller/saver/ISaveState';
 import { IObservableObject } from 'mobx';
 import { Root } from './view/Root/Root';
+import { ApiMock } from './api/ApiMock';
 
 export interface IAppConfig {
     apiUrl: string;
@@ -27,7 +28,7 @@ export class MapApp {
             />,
             targetElement,
         );
-        this.api = new Api(config.apiUrl);
+        this.api = new ApiMock(config.apiUrl);
 
         this.loadData();
     }
