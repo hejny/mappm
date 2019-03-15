@@ -6,6 +6,7 @@ import { IObservableObject } from 'mobx';
 import { ISaveState } from '../../controller/saver/ISaveState';
 import { DefaultMap } from '../maps/DefaultMap';
 import { Marker, Popup } from 'react-leaflet';
+import { shortenLocation } from '../../api/IDevice';
 
 interface IAppProps {
     appState: IAppState & IObservableObject;
@@ -13,26 +14,33 @@ interface IAppProps {
 }
 
 export const Root = observer(({ appState, saveState }: IAppProps) => {
+    console.log('appState',appState);
     return (
         <div className="Root">
+
+            {appState.devices.length?(
             <DefaultMap
-                center={{
-                    lat: 50,
-                    lng: 14,
-                }}
+                center={shortenLocation(appState.devices[0].location)}
                 zoom={9}
             >
-                <Marker
-                    position={{
-                        lat: 50,
-                        lng: 14,
-                    }}
-                >
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                {appState.devices.map((device)=>(
+                    <Marker
+                        key={device.id}
+                        position={shortenLocation(device.location)}
+                    >
+                        <Popup>
+                            A pretty CSS3 popup. <br /> Easily customizable.
+                        </Popup>
+                    </Marker>
+                    
+                ))}
+
             </DefaultMap>
+            ):(
+                <div>
+                    Loading...
+                </div>
+            )}
         </div>
     );
 });

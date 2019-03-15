@@ -19,7 +19,7 @@ export class MapApp {
 
     constructor(targetElement: HTMLElement, config: IAppConfig) {
         this.appState = restoreAppState();
-        this.saveState = saveAppStateAfterChange(this.appState);
+        //this.saveState = saveAppStateAfterChange(this.appState);
 
         ReactDOM.render(
             <Root
@@ -28,9 +28,11 @@ export class MapApp {
             targetElement,
         );
         this.api = new Api(config.apiUrl);
+
+        this.loadData();
     }
 
     private async loadData() {
-        this.api.getDevices();
+        this.appState.devices = await this.api.getDevices();
     }
 }
