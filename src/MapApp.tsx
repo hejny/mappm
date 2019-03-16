@@ -29,7 +29,9 @@ export class MapApp {
             />,
             targetElement,
         );
-        this.api = new ApiMockReichenberg(config.apiUrl);
+
+        this.api = new ApiMock(config.apiUrl);
+        //this.api = new ApiMockReichenberg(config.apiUrl);
 
         this.loadData();
     }

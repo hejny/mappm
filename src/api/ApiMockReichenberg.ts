@@ -1,6 +1,7 @@
-import { IApiResponse } from './IApiResponse';
 import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
+import { randomPPM } from './ApiMock';
+import * as uuid from 'uuid';
 
 export class ApiMockReichenberg extends Api {
     async getDevices(): Promise<IDevice[]> {
@@ -12,7 +13,7 @@ export class ApiMockReichenberg extends Api {
 
         return response.map((nominatimPoi)=>(
             {
-                id: 'uuid-uuid-uuid',
+                id: uuid.v4(),
                 title: 'Ostravska raketa!',
                 description: 'bla egfb ergf wrsgf wrsgf wrsgf',
                 location: {
@@ -25,7 +26,7 @@ export class ApiMockReichenberg extends Api {
                         parameters: {},
                         values: [
                             {
-                                ppm: Math.round(Math.random()*10000),
+                                ppm: randomPPM(),
                                 time: new Date().getTime(),
                             },
                         ],

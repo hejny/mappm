@@ -10,6 +10,7 @@ import { deviceGetSenzorValue } from '../../model/IDevice';
 import * as Leaflet from 'leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import { shortenLocation } from '../../model/ILocation';
+import { Timeline } from '../Timeline/Timeline';
 
 
 interface IAppProps {
@@ -29,9 +30,11 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
     return (
         <div className="Root">
             {appState.devices.length ? (
+                <>
                 <DefaultMap
                     center={shortenLocation(appState.devices[0].location)}
                     zoom={9}
+           
                 >
 
                 
@@ -42,6 +45,9 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                         longitudeExtractor={device => device.location.longitude}
                         latitudeExtractor={device => device.location.latitude}
                         intensityExtractor={device => deviceGetSenzorValue(device,'PPM')}
+                        max={100}
+                        radius={50}
+                        gradient={{ 0.4: 'blue', 0.8: 'orange', 1.0: 'red' }}
                     />
 
 
@@ -60,6 +66,8 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                         </Marker>
                     ))}
                 </DefaultMap>
+                <Timeline {...{ appState }}/>
+                </>
             ) : (
                 <div>Loading...</div>
             )}

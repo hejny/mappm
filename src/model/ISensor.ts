@@ -5,7 +5,7 @@ export interface ISensorPPM {
     type: 'PPM';
     parameters: {};
     values: {
-        ppm: 24;
-        time: 123456789010;
+        ppm: number;
+        time: number;
     }[];
 }
