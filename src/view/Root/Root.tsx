@@ -19,7 +19,7 @@ interface IAppProps {
 }
 
 export const boxIcon = new Leaflet.Icon({
-    iconUrl: `/markers/box.png`,
+    iconUrl: `./markers/box.png`,
     iconAnchor: [10, 10],
     popupAnchor: [0, 0],
     iconSize: [20, 20],
