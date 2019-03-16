@@ -1,3 +1,4 @@
+import { MAP_CENTER } from './../config';
 import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
 import * as uuid from 'uuid';
@@ -12,8 +13,8 @@ export class ApiMock extends Api {
                 title: 'Ostravska raketa!',
                 description: 'bla egfb ergf wrsgf wrsgf wrsgf',
                 location: {
-                    latitude: 49.5 + Math.random(),
-                    longitude: 14 + Math.random(),
+                    latitude: MAP_CENTER.lat + (Math.random()-.5)*0.1,
+                    longitude: MAP_CENTER.lng + (Math.random()-.5)*0.2,
                 },
                 sensors: [
                     {
@@ -22,7 +23,7 @@ export class ApiMock extends Api {
                         values: [
                             {
                                 ppm: randomPPM(),
-                                time: new Date().getTime(),
+                                time: randomTime(),
                             },
                         ],
                     },
@@ -36,4 +37,8 @@ export class ApiMock extends Api {
 
 export function randomPPM(){
     return Math.floor(Math.random()*1000)
+}
+
+export function randomTime(){
+    return new Date().getTime()-Math.floor(Math.random()*1000*60*60*24*356*5)
 }

@@ -1,6 +1,6 @@
 import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
-import { randomPPM } from './ApiMock';
+import { randomPPM, randomTime } from './ApiMock';
 import * as uuid from 'uuid';
 
 export class ApiMockReichenberg extends Api {
@@ -27,7 +27,7 @@ export class ApiMockReichenberg extends Api {
                         values: [
                             {
                                 ppm: randomPPM(),
-                                time: new Date().getTime(),
+                                time: randomTime(),
                             },
                         ],
                     },

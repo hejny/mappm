@@ -6,11 +6,12 @@ import { IObservableObject } from 'mobx';
 import { ISaveState } from '../../controller/saver/ISaveState';
 import { DefaultMap } from '../DefaultMap/DefaultMap';
 import { Marker, Popup } from 'react-leaflet';
-import { deviceGetSenzorValue } from '../../model/IDevice';
+import { deviceGetSenzorValue, devicesGetTimeRange } from '../../model/IDevice';
 import * as Leaflet from 'leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import { shortenLocation } from '../../model/ILocation';
 import { Timeline } from '../Timeline/Timeline';
+import { MAP_CENTER } from '../../config';
 
 
 interface IAppProps {
@@ -26,51 +27,53 @@ export const boxIcon = new Leaflet.Icon({
 });
 
 export const Root = observer(({ appState, saveState }: IAppProps) => {
-    console.log('appState', appState);
+    
+    const devicesInRange = appState.devices.filter((device)=>{
+        const {first} = devicesGetTimeRange(device);
+        return appState.currentDate.getTime()>=first;
+    });
+
     return (
         <div className="Root">
-            {appState.devices.length ? (
-                <>
-                <DefaultMap
-                    center={shortenLocation(appState.devices[0].location)}
-                    zoom={9}
-           
-                >
+     
+               
+            <DefaultMap
+                center={MAP_CENTER}
+                zoom={12}
+        
+            >
 
+                {/**/}
+                <HeatmapLayer
+              
+                    points={devicesInRange}
+                    longitudeExtractor={device => device.location.longitude}
+                    latitudeExtractor={device => device.location.latitude}
+                    intensityExtractor={device => deviceGetSenzorValue(device,'PPM')}
+                    max={100}
+                    radius={50}
+                    gradient={{ 0.4: 'blue', 0.8: 'orange', 1.0: 'red' }}
+                />
                 
-                    <HeatmapLayer
-                        fitBoundsOnLoad
-                        fitBoundsOnUpdate
-                        points={appState.devices}
-                        longitudeExtractor={device => device.location.longitude}
-                        latitudeExtractor={device => device.location.latitude}
-                        intensityExtractor={device => deviceGetSenzorValue(device,'PPM')}
-                        max={100}
-                        radius={50}
-                        gradient={{ 0.4: 'blue', 0.8: 'orange', 1.0: 'red' }}
-                    />
 
 
-
-                    {appState.devices.map((device) => (
-                        <Marker
-                            key={device.id}
-                            position={shortenLocation(device.location)}
-                            icon={boxIcon}
-                        >
-                            <Popup>
-                                <h2>{device.title}</h2>
-                                <p>{device.description}</p>
-                                <b>PPM:</b> {deviceGetSenzorValue(device,'PPM')}
-                            </Popup>
-                        </Marker>
-                    ))}
-                </DefaultMap>
-                <Timeline {...{ appState }}/>
-                </>
-            ) : (
-                <div>Loading...</div>
-            )}
+                {devicesInRange.map((device) => (
+                    <Marker
+                        key={device.id}
+                        position={shortenLocation(device.location)}
+                        icon={boxIcon}
+                    >
+                        <Popup>
+                            <h2>{device.title}</h2>
+                            <p>{device.description}</p>
+                            <b>PPM:</b> {deviceGetSenzorValue(device,'PPM')}
+                        </Popup>
+                    </Marker>
+                ))}
+            </DefaultMap>
+            <Timeline {...{ appState }}/>
+               
+        
         </div>
     );
 });
