@@ -28,11 +28,11 @@ export const DefaultMap: React.SFC<IDefaultMapProps> = ({
             zoom={zoom || 11}
             center={center || [48.7775, 11.43111]}
             onViewportChange={viewportChangeHandler(onViewportChange)}
-            onClick={(e)=>{
-                console.log('click',e);
+            onClick={(e) => {
+                console.log('click', e);
             }}
-            onZoom={(e)=>{
-                console.log('zoom',e.target.zoom);
+            onZoom={(e) => {
+                console.log('zoom', e.target.zoom);
             }}
         >
             <TileLayer

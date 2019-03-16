@@ -5,8 +5,6 @@ import { IAppState } from '../../model/IAppState';
 import { IObservableObject } from 'mobx';
 import { devicesGetTimeRange } from '../../model/IDevice';
 
-
-
 interface ITimelineProps {
     appState: IAppState & IObservableObject;
 }
@@ -14,14 +12,26 @@ interface ITimelineProps {
 export const Timeline = observer(({ appState }: ITimelineProps) => {
     return (
         <div className="Timeline">
-            <div className="date">{appState.currentDate.toLocaleDateString(`cs`)}</div>
-           <input type="range" defaultValue={'100'} min={0} max={100} step={1} onChange={(event)=>{
+            <div className="date">
+                {appState.currentDate.toLocaleDateString(`cs`)}
+            </div>
+            <input
+                type="range"
+                defaultValue={'100'}
+                min={0}
+                max={100}
+                step={1}
+                onChange={(event) => {
+                    const { first, last } = devicesGetTimeRange(
+                        ...appState.devices,
+                    );
 
-                const {first,last} = devicesGetTimeRange(...appState.devices);
-   
-                appState.currentDate = new Date(parseInt(event.target.value)/100*(last-first)+first);
-
-           }}/>
+                    appState.currentDate = new Date(
+                        (parseInt(event.target.value) / 100) * (last - first) +
+                            first,
+                    );
+                }}
+            />
         </div>
     );
 });

@@ -13,7 +13,6 @@ import { shortenLocation } from '../../model/ILocation';
 import { Timeline } from '../Timeline/Timeline';
 import { MAP_CENTER } from '../../config';
 
-
 interface IAppProps {
     appState: IAppState & IObservableObject;
     saveState: ISaveState & IObservableObject;
@@ -27,35 +26,59 @@ export const boxIcon = new Leaflet.Icon({
 });
 
 export const Root = observer(({ appState, saveState }: IAppProps) => {
-    
-    const devicesInRange = appState.devices.filter((device)=>{
-        const {first} = devicesGetTimeRange(device);
-        return appState.currentDate.getTime()>=first;
+    const devicesInRange = appState.devices.filter((device) => {
+        const { first } = devicesGetTimeRange(device);
+        return appState.currentDate.getTime() >= first;
     });
 
     return (
         <div className="Root">
-     
-               
-            <DefaultMap
-                center={MAP_CENTER}
-                zoom={12}
-        
-            >
-
+            <DefaultMap center={MAP_CENTER} zoom={12}>
                 {/**/}
                 <HeatmapLayer
-              
-                    points={devicesInRange}
-                    longitudeExtractor={device => device.location.longitude}
-                    latitudeExtractor={device => device.location.latitude}
-                    intensityExtractor={device => deviceGetSenzorValue(device,'PPM')}
-                    max={100}
+                    points={devicesInRange.filter((device) => {
+                        const value = deviceGetSenzorValue(device, 'PPM');
+                        return value >= 0 && value < 100;
+                    })}
+                    longitudeExtractor={(device) => device.location.longitude}
+                    latitudeExtractor={(device) => device.location.latitude}
+                    intensityExtractor={(device) => 1}
+                    max={1}
+                    blur={0}
+                    minOpacity={0.2}
                     radius={50}
-                    gradient={{ 0.4: 'blue', 0.8: 'orange', 1.0: 'red' }}
+                    gradient={{ 0: 'green' }}
                 />
-                
 
+                <HeatmapLayer
+                    points={devicesInRange.filter((device) => {
+                        const value = deviceGetSenzorValue(device, 'PPM');
+                        return value >= 100 && value < 500;
+                    })}
+                    longitudeExtractor={(device) => device.location.longitude}
+                    latitudeExtractor={(device) => device.location.latitude}
+                    intensityExtractor={(device) => 1}
+                    max={1}
+                    blur={0}
+                    minOpacity={0.2}
+                    radius={50}
+                    gradient={{ 0: 'orange' }}
+                />
+
+                <HeatmapLayer
+                    points={devicesInRange.filter((device) => {
+                        const value = deviceGetSenzorValue(device, 'PPM');
+                        return value >= 500 && value < 1000;
+                    })}
+                    longitudeExtractor={(device) => device.location.longitude}
+                    latitudeExtractor={(device) => device.location.latitude}
+                    intensityExtractor={(device) => 1}
+                    max={1}
+                    blur={0}
+                    minOpacity={0.2}
+                    radius={50}
+                    gradient={{ 0: 'red' }}
+                />
 
                 {devicesInRange.map((device) => (
                     <Marker
@@ -66,14 +89,12 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                         <Popup>
                             <h2>{device.title}</h2>
                             <p>{device.description}</p>
-                            <b>PPM:</b> {deviceGetSenzorValue(device,'PPM')}
+                            <b>PPM:</b> {deviceGetSenzorValue(device, 'PPM')}
                         </Popup>
                     </Marker>
                 ))}
             </DefaultMap>
-            <Timeline {...{ appState }}/>
-               
-        
+            <Timeline {...{ appState }} />
         </div>
     );
 });
