@@ -1,9 +1,10 @@
-import { MAP_CENTER } from './../config';
+import { ISensor } from './../model/ISensor';
+import { MAP_CENTER } from '../config';
 import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
 import * as uuid from 'uuid';
 
-export class ApiMock extends Api {
+export class ApiMockRandom extends Api {
     async getDevices(): Promise<IDevice[]> {
         const devices: IDevice[] = [];
 
@@ -21,25 +22,34 @@ export class ApiMock extends Api {
                     longitude:
                         MAP_CENTER.lng + Math.cos(radius) * distance * 0.2,
                 },
-                sensors: [
-                    {
-                        type: 'PPM',
-                        parameters: {},
-                        values: [
-                            {
-                                ppm: Math.floor(
-                                    Math.random() * 1000 * (1 - distance),
-                                ),
-                                time: randomTime(),
-                            },
-                        ],
-                    },
-                ],
+                sensors: randomSensors(
+                    Math.random() * 1000 * (1 - distance),
+                ),
             });
         }
 
         return devices;
     }
+}
+
+
+function randomSensors(ppm: number):ISensor[]{
+    const sensors: ISensor[] = [];
+    for (let i = 0,l = Math.ceil(Math.random()*10); i < l; i++) {
+        sensors.push(
+            {
+                type: 'PPM',
+                parameters: {},
+                values: [
+                    {
+                        ppm: ppm-(Math.random()-.5)*200,
+                        time: randomTime(),
+                    },
+                ],
+            },
+        );
+    }
+    return sensors;
 }
 
 export function randomPPM() {

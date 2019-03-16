@@ -32,15 +32,21 @@ export function devicesGetTimeRange(
 
 export function deviceGetSenzorValue(
     device: IDevice,
+    currentDate: number,//todo data/time mismatch
     senzorType: ISensorType,
 ): number {
     for (const senzor of device.sensors) {
         if (senzor.type === senzorType) {
             for (const value of senzor.values) {
-                return value.ppm; //todo not working with other
+                if(value.time<=currentDate){
+                    return value.ppm; //todo not working with other sensor types
+                }
             }
         }
     }
+    console.log('device',device);
+    console.log('currentDate',currentDate);
+    console.log('senzorType',senzorType);
     throw new Error(
         `Thare is no relevant senzor"${senzorType}" value from device ${
             device.id

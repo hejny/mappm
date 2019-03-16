@@ -37,7 +37,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                 {/**/}
                 <HeatmapLayer
                     points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, 'PPM');
+                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
                         return value >= 0 && value < 100;
                     })}
                     longitudeExtractor={(device) => device.location.longitude}
@@ -52,7 +52,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
 
                 <HeatmapLayer
                     points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, 'PPM');
+                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
                         return value >= 100 && value < 500;
                     })}
                     longitudeExtractor={(device) => device.location.longitude}
@@ -67,7 +67,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
 
                 <HeatmapLayer
                     points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, 'PPM');
+                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
                         return value >= 500 && value < 1000;
                     })}
                     longitudeExtractor={(device) => device.location.longitude}
@@ -89,7 +89,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                         <Popup>
                             <h2>{device.title}</h2>
                             <p>{device.description}</p>
-                            <b>PPM:</b> {deviceGetSenzorValue(device, 'PPM')}
+                            <b>PPM:</b> {deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM')} <i>{appState.currentDate.toLocaleDateString(`cs`)}</i>
                         </Popup>
                     </Marker>
                 ))}

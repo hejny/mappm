@@ -1,9 +1,9 @@
 import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
-import { randomPPM, randomTime } from './ApiMock';
+import { randomPPM, randomTime } from './ApiMockRandom';
 import * as uuid from 'uuid';
 
-export class ApiMockReichenberg extends Api {
+export class ApiMockOsm extends Api {
     async getDevices(): Promise<IDevice[]> {
         const response = await (await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&city=Liberec&street=pod&limit=100`,
