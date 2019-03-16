@@ -3,6 +3,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { IAppState } from '../../model/IAppState';
 import { IObservableObject } from 'mobx';
+import { debounce } from 'lodash';
 import { devicesGetTimeRange } from '../../model/IDevice';
 
 interface ITimelineProps {
@@ -17,6 +18,14 @@ export const Timeline = observer(({ appState }: ITimelineProps) => {
     const { first, last } = devicesGetTimeRange(...appState.devices);
 
     const percent = (appState.currentDate.getTime() - first) / (last - first);
+
+
+    const setTime = debounce((time) => { 
+        appState.currentDate = new Date(
+            (parseInt(time) / 100) * (last - first) +
+                first,
+        );
+    },100);
 
     return (
         <div className="Timeline">
@@ -47,12 +56,7 @@ export const Timeline = observer(({ appState }: ITimelineProps) => {
                 min={0}
                 max={100}
                 step={1}
-                onChange={(event) => {
-                    appState.currentDate = new Date(
-                        (parseInt(event.target.value) / 100) * (last - first) +
-                            first,
-                    );
-                }}
+                onChange={(event)=>setTime(event.target.value)}
             />
         </div>
     );

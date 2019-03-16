@@ -14,8 +14,8 @@ export class ApiMockRandom extends Api {
 
             devices.push({
                 id: uuid.v4(),
-                title: 'Ostravska raketa!',
-                description: 'bla egfb ergf wrsgf wrsgf wrsgf',
+                title: `"Krabička" #${i}`,
+                description: 'CRA IoT Hackathon!',
                 location: {
                     latitude:
                         MAP_CENTER.lat + Math.sin(radius) * distance * 0.1,

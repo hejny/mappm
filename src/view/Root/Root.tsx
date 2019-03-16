@@ -6,7 +6,7 @@ import { IObservableObject } from 'mobx';
 import { ISaveState } from '../../controller/saver/ISaveState';
 import { DefaultMap } from '../DefaultMap/DefaultMap';
 import { Marker, Popup } from 'react-leaflet';
-import { deviceGetSenzorValue, devicesGetTimeRange } from '../../model/IDevice';
+import { deviceGetSenzorValue, devicesGetTimeRange, IDevice } from '../../model/IDevice';
 import * as Leaflet from 'leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import { shortenLocation } from '../../model/ILocation';
@@ -49,19 +49,22 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
     });
 
 
-    const devices1 = devicesInRange.filter((device) => {
-        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-        return value >= 0 && value < 100;
-    });
-    const devices2 = devicesInRange.filter((device) => {
-        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-        return value >= 100 && value < 500;
-    })
-    const devices3 = devicesInRange.filter((device) => {
-        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-        return value >= 500 && value < 1000;
-    })
+    const devices1:IDevice[] = [];
+    const devices2:IDevice[] = [];
+    const devices3:IDevice[] = [];
 
+    for(const device of devicesInRange){
+        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
+        if(value >= 0 && value < 100){
+            devices1.push(device);
+        }else
+        if(value >= 100 && value < 500){
+            devices2.push(device);
+        }else
+        if(value >= 500 && value < 1000){
+            devices3.push(device);
+        }
+    }
 
     return (
         <div className="Root">
@@ -109,7 +112,20 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                     <Marker
                         key={device.id}
                         position={shortenLocation(device.location)}
-                        icon={boxIconRed}
+                        icon={(()=>{
+
+                            if(devices1.indexOf(device)!==-1){
+                                return boxIconGreen;
+                            }else
+                            if(devices2.indexOf(device)!==-1){
+                                return boxIconOrange;
+                            }else
+                            if(devices3.indexOf(device)!==-1){
+                                return boxIconRed;
+                            }
+
+                            return boxIconGreen;
+                        })()}
                     >
                         <Popup>
                             <h2>{device.title}</h2>
@@ -123,7 +139,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                                             <i>({appState.currentDate.toLocaleDateString(`cs`)})</i>
                                         </td>
                                         <td>
-                                            {deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM')}
+                                            {Math.round(deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM'))}
                                         </td>
                                     </tr>
                                     <tr>
@@ -132,7 +148,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                                             <i>(dnes)</i>
                                         </td>
                                         <td>
-                                            {deviceGetSenzorValue(device, new Date().getTime(), 'PPM')}
+                                            {Math.round(deviceGetSenzorValue(device, new Date().getTime(), 'PPM'))}
                                         </td>
                                     </tr>
                                 </tbody>
