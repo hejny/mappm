@@ -1,4 +1,4 @@
-import { IDevice } from './IDevice';
+import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
 
 export class ApiMock extends Api {

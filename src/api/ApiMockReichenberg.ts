@@ -1,5 +1,5 @@
 import { IApiResponse } from './IApiResponse';
-import { IDevice } from './IDevice';
+import { IDevice } from '../model/IDevice';
 import { Api } from './Api';
 
 export class ApiMockReichenberg extends Api {
@@ -25,8 +25,8 @@ export class ApiMockReichenberg extends Api {
                         parameters: {},
                         values: [
                             {
-                                ppm: 24,
-                                time: 123456789010,
+                                ppm: Math.round(Math.random()*10000),
+                                time: new Date().getTime(),
                             },
                         ],
                     },

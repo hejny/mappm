@@ -1,4 +1,4 @@
-import { IDevice } from '../api/IDevice';
+import { IDevice } from './IDevice';
 
 export interface IAppState {
     devices: IDevice[];

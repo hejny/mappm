@@ -1,5 +1,5 @@
 import { IApiResponse } from './IApiResponse';
-import { IDevice } from './IDevice';
+import { IDevice } from '../model/IDevice';
 
 export class Api {
     constructor(private apiUrl: string) {}
