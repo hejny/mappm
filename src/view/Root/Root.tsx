@@ -8,6 +8,8 @@ import { DefaultMap } from '../maps/DefaultMap';
 import { Marker, Popup } from 'react-leaflet';
 import { shortenLocation } from '../../api/IDevice';
 import * as Leaflet from 'leaflet';
+import HeatmapLayer from 'react-leaflet-heatmap-layer';
+
 
 interface IAppProps {
     appState: IAppState & IObservableObject;
@@ -34,6 +36,19 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                     center={shortenLocation(appState.devices[0].location)}
                     zoom={9}
                 >
+
+                
+                    <HeatmapLayer
+                        fitBoundsOnLoad
+                        fitBoundsOnUpdate
+                        points={appState.devices}
+                        longitudeExtractor={device => device.location.longitude}
+                        latitudeExtractor={device => device.location.latitude}
+                        intensityExtractor={device => Math.floor(Math.random()*100)}
+                    />
+
+
+
                     {appState.devices.map((device) => (
                         <Marker
                             key={device.id}

@@ -28,6 +28,9 @@ export const DefaultMap: React.SFC<IDefaultMapProps> = ({
             zoom={zoom || 11}
             center={center || [48.7775, 11.43111]}
             onViewportChange={viewportChangeHandler(onViewportChange)}
+            onClick={(e)=>{
+                console.log('aa',e);
+            }}
         >
             <TileLayer
                 url="//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
