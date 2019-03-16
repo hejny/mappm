@@ -94,6 +94,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                     </Marker>
                 ))}
             </DefaultMap>
+
             <Timeline {...{ appState }} />
         </div>
     );

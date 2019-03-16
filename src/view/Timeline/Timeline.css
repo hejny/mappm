@@ -11,9 +11,11 @@
     background-color: #FFFFFF;
     font-size: 1.2rem;
     padding: 10px;
-    border: 1px solid black;
+    box-shadow: black 0 0 5px;
     width: 200px;
-    text-align: center
+    text-align: center;
+    margin-bottom: -10px;
+    transition: 0.2s margin;
 }
 
 

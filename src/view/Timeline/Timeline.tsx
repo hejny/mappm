@@ -10,9 +10,22 @@ interface ITimelineProps {
 }
 
 export const Timeline = observer(({ appState }: ITimelineProps) => {
+    if (appState.devices.length === 0) {
+        return <></>;
+    }
+
+    const { first, last } = devicesGetTimeRange(...appState.devices);
+
+    const percent = (appState.currentDate.getTime() - first) / (last - first);
+
     return (
         <div className="Timeline">
-            <div className="date">
+            <div
+                className="date"
+                style={{
+                    marginLeft: `calc( ${percent * 99}% - 100px)`, //todo why 99 not 100
+                }}
+            >
                 {appState.currentDate.toLocaleDateString(`cs`)}
             </div>
             <input
@@ -22,10 +35,6 @@ export const Timeline = observer(({ appState }: ITimelineProps) => {
                 max={100}
                 step={1}
                 onChange={(event) => {
-                    const { first, last } = devicesGetTimeRange(
-                        ...appState.devices,
-                    );
-
                     appState.currentDate = new Date(
                         (parseInt(event.target.value) / 100) * (last - first) +
                             first,
