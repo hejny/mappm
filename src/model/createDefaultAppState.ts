@@ -4,5 +4,6 @@ export function createDefaultAppState(): IAppState {
     return {
         devices: [],
         currentDate: new Date(),
+        mapZoom:12,
     };
 }

@@ -10,6 +10,7 @@ export interface IDefaultMapProps {
     center?: LatLngLiteral;
     zoom?: number;
     onViewportChange?: ViewportChangeHandler;
+    onZoomChange?: (zoom: number)=>void;
     className?: string;
 }
 
@@ -18,6 +19,7 @@ export const DefaultMap: React.SFC<IDefaultMapProps> = ({
     center,
     zoom,
     onViewportChange,
+    onZoomChange,
     className,
 }) => (
     <div className="DefaultMap">
@@ -31,8 +33,10 @@ export const DefaultMap: React.SFC<IDefaultMapProps> = ({
             onClick={(e) => {
                 console.log('click', e);
             }}
-            onZoom={(e) => {
-                console.log('zoom', e.target.zoom);
+            onZoom={(event) => {
+                if(onZoomChange){
+                    onZoomChange(event.sourceTarget._zoom);
+                }
             }}
         >
             <TileLayer

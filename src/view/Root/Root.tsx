@@ -26,6 +26,9 @@ export const boxIcon = new Leaflet.Icon({
 });
 
 export const Root = observer(({ appState, saveState }: IAppProps) => {
+
+    //const [zoom, setZoom] = React.useState(12);
+
     const devicesInRange = appState.devices.filter((device) => {
         const { first } = devicesGetTimeRange(device);
         return appState.currentDate.getTime() >= first;
@@ -33,7 +36,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
 
     return (
         <div className="Root">
-            <DefaultMap center={MAP_CENTER} zoom={12}>
+            <DefaultMap center={MAP_CENTER} onZoomChange={(zoom)=>appState.mapZoom=zoom} zoom={appState.mapZoom}>
                 {/**/}
                 <HeatmapLayer
                     points={devicesInRange.filter((device) => {
@@ -46,7 +49,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                     max={1}
                     blur={0}
                     minOpacity={0.2}
-                    radius={50}
+                    radius={50/*Math.pow(2,appState.mapZoom-12)*/}
                     gradient={{ 0: 'green' }}
                 />
 
@@ -89,7 +92,29 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                         <Popup>
                             <h2>{device.title}</h2>
                             <p>{device.description}</p>
-                            <b>PPM:</b> {deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM')} <i>{appState.currentDate.toLocaleDateString(`cs`)}</i>
+
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>PPM:</b>
+                                            <i>({appState.currentDate.toLocaleDateString(`cs`)})</i>
+                                        </td>
+                                        <td>
+                                            {deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM')}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>PPM:</b>
+                                            <i>(dnes)</i>
+                                        </td>
+                                        <td>
+                                            {deviceGetSenzorValue(device, new Date().getTime(), 'PPM')}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table> 
                         </Popup>
                     </Marker>
                 ))}
