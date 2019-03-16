@@ -23,7 +23,20 @@ export const Timeline = observer(({ appState }: ITimelineProps) => {
             <div
                 className="date"
                 style={{
-                    marginLeft: `calc( ${percent * 99}% - 100px)`, //todo why 99 not 100
+                    marginLeft:  window.innerWidth*0.8*percent-100
+                    
+                    /*Math.max(
+                        
+                        -20,
+                        Math.min(
+                        
+                            window.innerWidth-window.innerWidth*0.2+20,
+                            window.innerWidth*0.8*percent-100
+                        
+                        )
+                    
+                    )*/
+                    //`calc( ${percent * 99}% - 100px)`, //todo why 99 not 100
                 }}
             >
                 {appState.currentDate.toLocaleDateString(`cs`)}

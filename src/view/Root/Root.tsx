@@ -18,8 +18,22 @@ interface IAppProps {
     saveState: ISaveState & IObservableObject;
 }
 
-export const boxIcon = new Leaflet.Icon({
-    iconUrl: `./markers/box.png`,
+export const boxIconGreen = new Leaflet.Icon({
+    iconUrl: `./markers/green.png`,
+    iconAnchor: [10, 10],
+    popupAnchor: [0, 0],
+    iconSize: [20, 20],
+});
+
+export const boxIconRed = new Leaflet.Icon({
+    iconUrl: `./markers/red.png`,
+    iconAnchor: [10, 10],
+    popupAnchor: [0, 0],
+    iconSize: [20, 20],
+});
+
+export const boxIconOrange = new Leaflet.Icon({
+    iconUrl: `./markers/orange.png`,
     iconAnchor: [10, 10],
     popupAnchor: [0, 0],
     iconSize: [20, 20],
@@ -34,15 +48,27 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
         return appState.currentDate.getTime() >= first;
     });
 
+
+    const devices1 = devicesInRange.filter((device) => {
+        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
+        return value >= 0 && value < 100;
+    });
+    const devices2 = devicesInRange.filter((device) => {
+        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
+        return value >= 100 && value < 500;
+    })
+    const devices3 = devicesInRange.filter((device) => {
+        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
+        return value >= 500 && value < 1000;
+    })
+
+
     return (
         <div className="Root">
             <DefaultMap center={MAP_CENTER} onZoomChange={(zoom)=>appState.mapZoom=zoom} zoom={appState.mapZoom}>
                 {/**/}
                 <HeatmapLayer
-                    points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-                        return value >= 0 && value < 100;
-                    })}
+                    points={devices1}
                     longitudeExtractor={(device) => device.location.longitude}
                     latitudeExtractor={(device) => device.location.latitude}
                     intensityExtractor={(device) => 1}
@@ -54,10 +80,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                 />
 
                 <HeatmapLayer
-                    points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-                        return value >= 100 && value < 500;
-                    })}
+                    points={devices2}
                     longitudeExtractor={(device) => device.location.longitude}
                     latitudeExtractor={(device) => device.location.latitude}
                     intensityExtractor={(device) => 1}
@@ -69,10 +92,7 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                 />
 
                 <HeatmapLayer
-                    points={devicesInRange.filter((device) => {
-                        const value = deviceGetSenzorValue(device, appState.currentDate.getTime(), 'PPM');
-                        return value >= 500 && value < 1000;
-                    })}
+                    points={devices3}
                     longitudeExtractor={(device) => device.location.longitude}
                     latitudeExtractor={(device) => device.location.latitude}
                     intensityExtractor={(device) => 1}
@@ -83,11 +103,13 @@ export const Root = observer(({ appState, saveState }: IAppProps) => {
                     gradient={{ 0: 'red' }}
                 />
 
+                
+
                 {devicesInRange.map((device) => (
                     <Marker
                         key={device.id}
                         position={shortenLocation(device.location)}
-                        icon={boxIcon}
+                        icon={boxIconRed}
                     >
                         <Popup>
                             <h2>{device.title}</h2>
