@@ -1,3 +1,5 @@
+# `This app was made on a hackathon and not maintained for a long time. So expect a very pure code quality.`
+
 # Cities
 
 This is project created on [CRA IoT](https://www.facebook.com/events/394970157728128/).
